@@ -13,7 +13,6 @@ const get = (id: number | string) => {
   return axiosInstance.get<Game>("games" + "/" + id).then((res) => res.data);
 };
 
-console.log(get(1));
 const useGame = (slug: string) =>
   useQuery({
     queryKey: ["games", slug],
