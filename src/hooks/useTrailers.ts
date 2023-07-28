@@ -15,7 +15,7 @@ const axiosInstance = axios.create({
   },
 });
 
-const get = (gameId: number, config: AxiosRequestConfig) => {
+const getAll = (gameId: number, config: AxiosRequestConfig) => {
   return axiosInstance
     .get<Trailer>(`/games/${gameId}/movies`, config)
     .then((res) => res.data);
@@ -25,7 +25,7 @@ const useTrailers = (gameId: number) =>
   useQuery([
     {
       queryKey: ["trailers", gameId],
-      queryFn: () => get,
+      queryFn: () => getAll,
     },
   ]);
 

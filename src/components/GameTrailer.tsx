@@ -1,11 +1,4 @@
-// import useTrailers from '../hooks/useTrailers';
-
-interface Trailer {
-  id: number;
-  name: string;
-  preview: string;
-  data: { 480: string; max: string };
-}
+import useTrailers from "../hooks/useTrailers";
 
 interface Props {
   gameId: number;
