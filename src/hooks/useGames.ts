@@ -2,6 +2,12 @@ import { GameQuery } from "../App";
 import useData from "./useData";
 import { Genre } from "./useGenres";
 
+interface Publisher {
+  id: number;
+  name: string;
+  image_background: string;
+  slug: string;
+}
 export interface Platform {
   id: number;
   name: string;

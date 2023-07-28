@@ -8,6 +8,12 @@ interface Trailer {
   data: { 480: string; max: string };
 }
 
+interface FetchResponse<T> {
+  count: number;
+  next: string | null;
+  results: T[];
+}
+
 const axiosInstance = axios.create({
   baseURL: "https://api.rawg.io/api",
   params: {
@@ -17,16 +23,14 @@ const axiosInstance = axios.create({
 
 const getAll = (gameId: number, config: AxiosRequestConfig) => {
   return axiosInstance
-    .get<Trailer>(`/games/${gameId}/movies`, config)
+    .get<FetchResponse<Trailer>>(`/games/${gameId}/movies`, config)
     .then((res) => res.data);
 };
 
-const useTrailers = (gameId: number) =>
-  useQuery([
-    {
-      queryKey: ["trailers", gameId],
-      queryFn: () => getAll,
-    },
-  ]);
+const useTrailers = (gameId: number, config: AxiosRequestConfig) =>
+  useQuery({
+    queryKey: ["movies", gameId],
+    queryFn: () => getAll(gameId, config),
+  });
 
 export default useTrailers;

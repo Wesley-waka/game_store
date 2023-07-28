@@ -7,7 +7,10 @@ const routes = createBrowserRouter([
   {
     path: "/",
     element: <Layout />,
-    children: [{ path: "games/:slug", element: <GameDetails /> }],
+    children: [
+      { index: true, element: <HomePage /> },
+      { path: "games/:slug", element: <GameDetails /> },
+    ],
   },
 ]);
 
