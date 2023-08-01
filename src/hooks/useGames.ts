@@ -1,6 +1,8 @@
+import { useQuery } from "@tanstack/react-query";
 import { GameQuery } from "../App";
 import useData from "./useData";
 import { Genre } from "./useGenres";
+import axios from "axios";
 
 interface Publisher {
   id: number;
@@ -26,18 +28,35 @@ export interface Game {
   rating_top: number;
 }
 
-const useGames = (gameQuery: GameQuery) =>
-  useData<Game>(
-    "/games",
-    {
-      params: {
-        genres: gameQuery.genre?.id,
-        platforms: gameQuery.platform?.id,
-        ordering: gameQuery.sortOrder,
-        search: gameQuery.searchText,
-      },
-    },
-    [gameQuery]
-  );
+const axiosinstance = axios.create({
+  baseURL: "https://api.rawg.io/api",
+  params: {
+    key: "e53bba19d7914970889f528d70c8e06d",
+  },
+});
+
+const getGames = () => {
+  return axiosinstance.get<Game>("/games").then((res) => res.data);
+};
+
+const useGames = () =>
+  useQuery({
+    queryKey: ["games"],
+    queryFn: () => getGames,
+  });
+
+// const useGames = (gameQuery: GameQuery) =>
+//   useData<Game>(
+//     "/games",
+//     {
+//       params: {
+//         genres: gameQuery.genre?.id,
+//         platforms: gameQuery.platform?.id,
+//         ordering: gameQuery.sortOrder,
+//         search: gameQuery.searchText,
+//       },
+//     },
+//     [gameQuery]
+//   );
 
 export default useGames;
