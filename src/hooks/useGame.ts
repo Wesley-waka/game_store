@@ -10,7 +10,7 @@ const axiosInstance = axios.create({
 });
 
 const get = (id: number | string) => {
-  return axiosInstance.get<Game>("games" + "/" + id).then((res) => res.data);
+  return axiosInstance.get<Game>("/games" + "/" + id).then((res) => res.data);
 };
 
 const useGame = (slug: string) =>

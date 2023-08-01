@@ -17,7 +17,7 @@ const axiosInstance = axios.create({
 });
 
 const getGenres = () => {
-  return axiosInstance.get<Genre>("genres").then((res) => res.data);
+  return axiosInstance.get<Genre>("/genres").then((res) => res.data);
 };
 
 const useGenres = () =>

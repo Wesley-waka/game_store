@@ -1,4 +1,7 @@
-import useData from "./useData";
+import axios from "axios";
+import { useQuery } from "@tanstack/react-query";
+import ms from "ms";
+import platforms from "../data/platforms";
 
 interface Platform {
   id: number;
@@ -6,7 +9,25 @@ interface Platform {
   slug: string;
 }
 
+const axiosInstance = axios.create({
+  baseURL: "",
+  params: {
+    key: "",
+  },
+});
+
+const getPlatforms = () => {
+  axiosInstance
+    .get<Platform>("/platforms/lists/parents")
+    .then((res) => res.data);
+};
+
 const usePlatforms = () =>
-  useData<Platform>("/platforms/lists/parent_platforms");
+  useQuery({
+    queryKey: ["platforms"],
+    queryFn: () => getPlatforms,
+    staleTime: ms("24h"),
+    initialData: platforms,
+  });
 
 export default usePlatforms;
