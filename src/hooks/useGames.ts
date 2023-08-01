@@ -68,18 +68,5 @@ const useGames = () => {
     staleTime: ms("24h"),
   });
 };
-// const useGames = (gameQuery: GameQuery) =>
-//   useData<Game>(
-//     "/games",
-//     {
-//       params: {get
-//         genres: gameQuery.genre?.id,
-//         platforms: gameQuery.platform?.id,
-//         ordering: gameQuery.sortOrder,
-//         search: gameQuery.searchText,
-//       },
-//     },
-//     [gameQuery]
-//   );
 
 export default useGames;

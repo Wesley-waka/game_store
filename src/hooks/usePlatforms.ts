@@ -17,7 +17,7 @@ const axiosInstance = axios.create({
 });
 
 const getPlatforms = () => {
-  axiosInstance
+  return axiosInstance
     .get<Platform>("/platforms/lists/parents")
     .then((res) => res.data);
 };
