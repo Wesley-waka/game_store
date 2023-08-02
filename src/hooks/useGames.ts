@@ -3,7 +3,7 @@ import ms from "ms";
 import APIClient, { FetchResponse } from "../services/api-client";
 import { Genre } from "./useGenres";
 import { useSelector } from "react-redux";
-import { GameQueryStore, RootState } from "../redux";
+import { GameQuery, RootState } from "../redux";
 // import Game from "../entities/Game";
 export interface Publisher {
   id: number;
@@ -32,7 +32,7 @@ const apiClient = new APIClient<Game>("/games");
 
 const useGames = () => {
   // const gameQuery = useGameQueryStore((s) => s.gameQuery);
-  const gameQuery: GameQueryStore = useSelector((s: RootState) => s.game);
+  const gameQuery: GameQuery = useSelector((s: RootState) => s.game);
   return useInfiniteQuery<FetchResponse<Game>, Error>({
     queryKey: ["games", gameQuery],
     queryFn: ({ pageParam = 1 }) =>
