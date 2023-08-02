@@ -2,26 +2,31 @@ import React from "react";
 import { BsChevronDown } from "react-icons/bs";
 import usePlatforms from "../hooks/usePlatforms";
 import { Button, Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/react";
-import { Platform } from "../hooks/useGames";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState, selectPlatformId } from "../redux";
+import usePlatform from "../hooks/usePlatform";
 
-interface Props {
-  onSelectPlatform: (platform: Platform) => void;
-  selectedPlatform: Platform | null;
-}
-const PlatformSelector = ({ onSelectPlatform, selectedPlatform }: Props) => {
+// interface Props {
+//   onSelectPlatform: (platform: Platform) => void;
+//   selectedPlatform: Platform | null;
+// }
+const PlatformSelector = () => {
   const { data, error } = usePlatforms();
+  const platformSelected = useSelector((s: RootState) => s.game.platformId);
+  const platform = usePlatform(platformSelected);
+  const dispatch = useDispatch();
 
   if (error) return null;
   return (
     <Menu>
       <MenuButton as={Button} rightIcon={<BsChevronDown />}>
-        {selectedPlatform?.name || "Plaforms"}
+        {platform?.name || "Plaforms"}
       </MenuButton>
 
       <MenuList>
-        {data.map((platform) => (
+        {data?.results.map((platform) => (
           <MenuItem
-            onClick={() => onSelectPlatform(platform)}
+            onClick={() => dispatch(selectPlatformId(platform?.id))}
             key={platform.id}
           >
             {platform.name}

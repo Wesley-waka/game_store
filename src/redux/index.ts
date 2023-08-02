@@ -37,7 +37,7 @@ export function selectGenreId(id: number) {
   };
 }
 
-export function selectPlatformId(id: number) {
+export function selectPlatformId(id: number | undefined) {
   return {
     type: "SELECT PLATFORM",
     payload: id,
