@@ -11,9 +11,9 @@ interface Trailer {
 const useTrailers = (gameId: number) => {
   const apiClient = new APIClient<Trailer>(`/games/${gameId}/movies`);
 
-  useQuery({
+  return useQuery({
     queryKey: ["movies", gameId],
-    queryFn: () => apiClient.getAll,
+    queryFn:  apiClient.getAll,
   });
 };
 export default useTrailers;

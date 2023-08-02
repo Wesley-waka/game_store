@@ -7,16 +7,15 @@ import {
   Button,
   Heading,
 } from "@chakra-ui/react";
-import useGenres, { Genre } from "../hooks/useGenres";
+import useGenres from "../hooks/useGenres";
 import getCroppedImageUrl from "../services/image-url";
+import { RootState, selectGenreId } from "../redux";
+import { useDispatch, useSelector } from "react-redux";
 
-interface Props {
-  onSelectGenre: (genre: Genre) => void;
-  selectedGenre: Genre | null;
-}
-
-const GenreList = ({ selectedGenre, onSelectGenre }: Props) => {
+const GenreList = () => {
   const { data, isLoading } = useGenres();
+  const selectedGenreId = useSelector((s: RootState) => s.game.genreId);
+  const dispatch = useDispatch();
 
   //   if (error) return null;
 
@@ -40,9 +39,9 @@ const GenreList = ({ selectedGenre, onSelectGenre }: Props) => {
                 src={getCroppedImageUrl(genre.image_background)}
               />
               <Button
-                fontWeight={genre.id === selectedGenre?.id ? "bold" : "normal"}
+                fontWeight={genre.id === selectedGenreId ? "bold" : "normal"}
                 onClick={() => {
-                  onSelectGenre(genre);
+                  dispatch(selectGenreId(genre.id));
                 }}
                 fontSize="lg"
                 variant="link"
