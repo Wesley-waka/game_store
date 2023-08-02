@@ -1,26 +1,21 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { Genre } from "./useGenres";
-import axios, { AxiosRequestConfig } from "axios";
-import useGameQueryStore from "../store";
 import ms from "ms";
-
-export interface FetchResponse<T> {
-  count: number;
-  next: string | null;
-  results: T[];
-}
-
-interface Publisher {
+import APIClient, { FetchResponse } from "../services/api-client";
+import { Genre } from "./useGenres";
+import { useSelector } from "react-redux";
+import { GameQueryStore, RootState } from "../redux";
+// import Game from "../entities/Game";
+export interface Publisher {
   id: number;
   name: string;
-  image_background: string;
-  slug: string;
 }
+
 export interface Platform {
   id: number;
   name: string;
   slug: string;
 }
+
 export interface Game {
   id: number;
   name: string;
@@ -33,27 +28,15 @@ export interface Game {
   metacritic: number;
   rating_top: number;
 }
-
-const axiosinstance = axios.create({
-  baseURL: "https://api.rawg.io/api",
-  params: {
-    key: "e53bba19d7914970889f528d70c8e06d",
-  },
-});
-
-const getGames = (config: AxiosRequestConfig) => {
-  return axiosinstance
-    .get<FetchResponse<Game>>("/games", config)
-    .then((res) => res.data);
-};
+const apiClient = new APIClient<Game>("/games");
 
 const useGames = () => {
-  const gameQuery = useGameQueryStore((s) => s.gameQuery);
-
+  // const gameQuery = useGameQueryStore((s) => s.gameQuery);
+  const gameQuery: GameQueryStore = useSelector((s: RootState) => s.game);
   return useInfiniteQuery<FetchResponse<Game>, Error>({
     queryKey: ["games", gameQuery],
     queryFn: ({ pageParam = 1 }) =>
-      getGames({
+      apiClient.getAll({
         params: {
           genres: gameQuery.genreId,
           parent_platforms: gameQuery.platformId,

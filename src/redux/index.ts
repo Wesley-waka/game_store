@@ -1,23 +1,27 @@
 import { createStore, combineReducers } from "redux";
 
-interface GameQuery {
+export interface GameQueryStore {
   genreId?: number;
   platformId?: number;
   sortOrder?: number;
   searchText?: string;
 }
 
-const GameQuery = <GameQuery>{
+interface Action {
+  type: string;
+  payload?: string | number;
+}
+
+export interface RootState {
+  game: GameQueryStore;
+}
+
+const GameQueryStore = <GameQueryStore>{
   genreId: 0,
   platformId: 0,
   sortOrder: 0,
   searchText: "",
 };
-
-interface Action {
-  type: string;
-  payload?: string | number;
-}
 
 export function searchText(text: string) {
   return {
@@ -47,7 +51,7 @@ export function sortOrder(sortOrder: string) {
   };
 }
 
-function gameReducer(gameQuery: GameQuery, action: Action) {
+function gameReducer(gameQuery: GameQueryStore, action: Action) {
   switch (action.type) {
     case "SEARCH TEXT":
       return { ...gameQuery, searchText: action.payload };
