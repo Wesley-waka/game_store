@@ -1,4 +1,3 @@
-import React from "react";
 import { BsChevronDown } from "react-icons/bs";
 import usePlatforms from "../hooks/usePlatforms";
 import { Button, Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/react";
@@ -6,10 +5,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState, selectPlatformId } from "../redux";
 import usePlatform from "../hooks/usePlatform";
 
-// interface Props {
-//   onSelectPlatform: (platform: Platform) => void;
-//   selectedPlatform: Platform | null;
-// }
 const PlatformSelector = () => {
   const { data, error } = usePlatforms();
   const platformSelected = useSelector((s: RootState) => s.game.platformId);
