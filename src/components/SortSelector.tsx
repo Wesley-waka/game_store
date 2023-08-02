@@ -1,12 +1,17 @@
 import { Button, Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/react";
 import { BsChevronDown } from "react-icons/bs";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState, sortOrder } from "../redux";
 
-interface Props {
-  onSelectSortOrder: (sortOrder: string) => void;
-  sortOrder: string;
-}
-
-const SortSelector = ({ sortOrder, onSelectSortOrder }: Props) => {
+// interface Props {
+//   onSelectSortOrder: (sortOrder: string) => void;
+//   sortOrder: string;
+// }
+// { sortOrder, onSelectSortOrder }: Props
+const SortSelector = () => {
+  const selectSortOrderr = useSelector((s: RootState) => s.game.sortOrder);
+  const dispatch = useDispatch();
+  // dispatch(sortOrders());
   const sortOrders = [
     { value: "", label: "Relevance" },
     { value: "-added", label: "Date added" },
@@ -16,19 +21,17 @@ const SortSelector = ({ sortOrder, onSelectSortOrder }: Props) => {
     { value: "-rating", label: "Average rating" },
   ];
   const currentSortOrder = sortOrders.find(
-    (order) => order.value === sortOrder
+    (order) => order.value === selectSortOrderr
   );
   return (
     <Menu>
       <MenuButton as={Button} rightIcon={<BsChevronDown />}>
-        Order by:{currentSortOrder?.label || 'Relevance'}
+        Order by:{currentSortOrder?.label || "Relevance"}
       </MenuButton>
       <MenuList>
         {sortOrders.map((order) => (
           <MenuItem
-            onClick={() => {
-              onSelectSortOrder(order.value);
-            }}
+            onClick={() => dispatch(sortOrder(order.value))}
             key={order.value}
             value={order.value}
           >

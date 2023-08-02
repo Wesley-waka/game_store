@@ -3,7 +3,7 @@ import { createStore, combineReducers } from "redux";
 export interface GameQueryStore {
   genreId?: number;
   platformId?: number;
-  sortOrder?: number;
+  sortOrder?: string;
   searchText?: string;
 }
 
@@ -19,7 +19,7 @@ export interface RootState {
 const GameQueryStore = <GameQueryStore>{
   genreId: 0,
   platformId: 0,
-  sortOrder: 0,
+  sortOrder: "",
   searchText: "",
 };
 
@@ -55,6 +55,11 @@ function gameReducer(gameQuery: GameQueryStore, action: Action) {
   switch (action.type) {
     case "SEARCH TEXT":
       return { ...gameQuery, searchText: action.payload };
+    case "SORT ORDER":
+      return {
+        ...gameQuery,
+        sortOrder: action.payload,
+      };
     case "SELECT GENRE":
       return { ...gameQuery, genreId: action.payload, searchText: undefined };
     case "SELECT PLATFORM":
@@ -62,11 +67,6 @@ function gameReducer(gameQuery: GameQueryStore, action: Action) {
         ...gameQuery,
         platformId: action.payload,
         searchText: undefined,
-      };
-    case "SORT ORDER":
-      return {
-        ...gameQuery,
-        sortOrder: action.payload,
       };
     default:
       return gameQuery;
