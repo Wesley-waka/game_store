@@ -1,81 +1,46 @@
-import { createStore, combineReducers } from "redux";
+import { createSlice } from "@reduxjs/toolkit";
 
-export interface GameQuery {
+interface GameQuery {
   genreId?: number;
   platformId?: number;
   sortOrder?: string;
   searchText?: string;
 }
 
-interface Action {
-  type: string;
-  payload?: string | number;
+interface GameQueryState {
+  gameQuery: GameQuery;
 }
-
 export interface RootState {
-  game: GameQuery;
+  gameQuery: GameQueryState;
+  // Add other slices and their state interfaces here
 }
 
-const initialGameQuery: GameQuery = {
-  genreId: 0,
-  platformId: 0,
-  sortOrder: "",
-  searchText: "",
+export const initialState: GameQueryState = {
+  gameQuery: {},
 };
 
-export function searchText(text: string) {
-  return {
-    type: "SEARCH TEXT",
-    payload: text,
-  };
-}
-
-export function selectGenreId(id: number) {
-  return {
-    type: "SELECT GENRE",
-    payload: id,
-  };
-}
-
-export function selectPlatformId(id: number | undefined) {
-  return {
-    type: "SELECT PLATFORM",
-    payload: id,
-  };
-}
-
-export function sortOrder(sortOrder: string) {
-  return {
-    type: "SORT ORDER",
-    payload: sortOrder,
-  };
-}
-
-function gameReducer(state: GameQuery = initialGameQuery, action: Action) {
-  switch (action.type) {
-    case "SEARCH TEXT":
-      return { ...state, searchText: action.payload };
-    case "SORT ORDER":
-      return {
-        ...state,
-        sortOrder: action.payload,
-      };
-    case "SELECT GENRE":
-      return { ...state, genreId: action.payload, searchText: undefined };
-    case "SELECT PLATFORM":
-      return {
-        ...state,
-        platformId: action.payload,
-        searchText: undefined,
-      };
-    default:
-      return state;
-  }
-}
-
-const rootReducer = combineReducers({
-  game: gameReducer,
+const gameQuerySlice = createSlice({
+  name: "gameQuery",
+  initialState,
+  reducers: {
+    setSearchText: (state, action) => {
+      state.gameQuery.searchText = action.payload;
+    },
+    setGenreId: (state, action) => {
+      state.gameQuery.genreId = action.payload;
+      state.gameQuery.searchText = undefined;
+    },
+    setPlatformId: (state, action) => {
+      state.gameQuery.platformId = action.payload;
+      state.gameQuery.searchText = undefined;
+    },
+    setSortOrder: (state, action) => {
+      state.gameQuery.sortOrder = action.payload;
+    },
+  },
 });
 
-const store = createStore(rootReducer);
-export default store;
+export const { setSearchText, setGenreId, setPlatformId, setSortOrder } =
+  gameQuerySlice.actions;
+
+export default gameQuerySlice.reducer;

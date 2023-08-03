@@ -1,14 +1,14 @@
 import { Heading } from "@chakra-ui/react";
-import { RootState } from "../redux";
+import { RootState, initialState } from "../redux";
 import { useSelector } from "react-redux";
 import useGenre from "../hooks/useGenre";
 import usePlatform from "../hooks/usePlatform";
 
 const GameHeading = () => {
-  const genreId = useSelector((s: RootState) => s.game.genreId);
+  const genreId = useSelector((state:RootState)=>state.gameQuery.gameQuery.genreId);
   const genre = useGenre(genreId);
 
-  const platformId = useSelector((s: RootState) => s.game.platformId);
+  const platformId = initialState.gameQuery.platformId;
   const platform = usePlatform(platformId);
   // Games
   // Xbox

@@ -1,7 +1,7 @@
 import { Button, Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/react";
 import { BsChevronDown } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState, sortOrder } from "../redux";
+import { RootState, setSortOrder } from "../redux";
 
 // interface Props {
 //   onSelectSortOrder: (sortOrder: string) => void;
@@ -9,7 +9,9 @@ import { RootState, sortOrder } from "../redux";
 // }
 // { sortOrder, onSelectSortOrder }: Props
 const SortSelector = () => {
-  const selectSortOrderr = useSelector((s: RootState) => s.game.sortOrder);
+  const selectSortOrderr = useSelector(
+    (state: RootState) => state.gameQuery.gameQuery.sortOrder
+  );
   const dispatch = useDispatch();
   // dispatch(sortOrders());
   const sortOrders = [
@@ -31,7 +33,7 @@ const SortSelector = () => {
       <MenuList>
         {sortOrders.map((order) => (
           <MenuItem
-            onClick={() => dispatch(sortOrder(order.value))}
+            onClick={() => dispatch(setSortOrder(order.value))}
             key={order.value}
             value={order.value}
           >
