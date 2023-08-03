@@ -1,17 +1,17 @@
 import { HStack, Image } from "@chakra-ui/react";
 import logo from "../assets/logo.webp";
-import ColorModeSwitch from "./ColorModeSwitch";
+// import ColorModeSwitch from "./ColorModeSwitch";
 import SearchInput from "./SearchInput";
 import { Link } from "react-router-dom";
 
 const NavBar = () => {
   return (
-    <HStack padding="10px">
+    <HStack padding="10px" mx={10}>
       <Link to="/">
-        <Image src={logo} boxSize="60px" />
+        <Image src={logo} boxSize="60px" marginRight={60} />
       </Link>
       <SearchInput />
-      <ColorModeSwitch />
+      {/* <ColorModeSwitch /> */}
     </HStack>
   );
 };

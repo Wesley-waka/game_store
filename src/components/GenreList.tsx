@@ -11,22 +11,48 @@ import useGenres from "../hooks/useGenres";
 import getCroppedImageUrl from "../services/image-url";
 import { RootState, setGenreId } from "../redux";
 import { useDispatch, useSelector } from "react-redux";
+import styled from "styled-components";
 
 const GenreList = () => {
   const { data, isLoading } = useGenres();
-  const selectedGenreId = useSelector((state:RootState)=>state.gameQuery.gameQuery.genreId);
+  const selectedGenreId = useSelector(
+    (state: RootState) => state.gameQuery.gameQuery.genreId
+  );
   const dispatch = useDispatch();
-
+  const Wrapper = styled.div`
+    margin-top: 20%;
+  `;
   //   if (error) return null;
 
   if (isLoading) return <Spinner />;
 
   return (
-    <>
+    <Wrapper>
+      <Heading fontSize="2xl" marginBottom={3}>
+        Home
+      </Heading>
+      <Heading fontSize="2xl" marginBottom={3}>
+        Reviews
+      </Heading>
+      <Heading fontSize="2xl" marginBottom={3}>
+        New Releases
+      </Heading>
+      <List>
+        <ListItem padding="5px">Last 30 days</ListItem>
+      </List>
+      <Heading fontSize="2xl" marginBottom={3}>
+        Top
+      </Heading>
+      <List>
+        <ListItem padding="5px">Best of the year</ListItem>
+      </List>
+      <Heading fontSize="2xl" marginBottom={3}>
+        AllGames
+      </Heading>
+
       <Heading fontSize="2xl" marginBottom={3}>
         Genres
       </Heading>
-
       <List>
         {data?.results.map((genre) => (
           <ListItem key={genre.id} padding="5px">
@@ -55,7 +81,7 @@ const GenreList = () => {
           </ListItem>
         ))}
       </List>
-    </>
+    </Wrapper>
   );
 };
 
